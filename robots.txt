@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /app.html
+Disallow: /auth.html
+Disallow: /action.html

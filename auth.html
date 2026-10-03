@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.g.doubleclick.net; connect-src 'self' https://*.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://www.google.com http://127.0.0.1:9099 http://127.0.0.1:8080; frame-src https://www.google.com https://recaptcha.google.com https://likewise-64c33.firebaseapp.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="noindex">
+  <title>Sign in · Likewise</title>
+  <meta name="description" content="Sign in to Likewise or create an account.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:ital,wght@0,600;0,700;0,800;0,900;1,800&display=swap">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <script src="assets/js/boot.js"></script>
+  <script type="module" src="assets/js/auth-page.js"></script>
+</head>
+<body class="auth-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="auth-shell">
+    <!-- Brand panel -->
+    <aside class="auth-art" aria-hidden="true">
+      <a class="brand" href="./" tabindex="-1">
+        <svg class="mark" viewBox="64 64 896 896"><path class="m-red" fill="#EC3013" d="M338 64H960V686H761V263H338Z"/><path class="m-ink" fill="#201E1D" d="M64 338H263V761H686V960H64Z"/></svg>
+        <img class="wordmark" src="assets/img/wordmark.png" alt="" width="1797" height="328">
+      </a>
+      <div class="aa-stage" data-aa-stage>
+        <div class="aa-l aa-red"><svg viewBox="0 0 622 622"><path d="M0 0H622V622H423V199H0Z"/></svg></div>
+        <div class="aa-l aa-ink"><svg viewBox="0 0 622 622"><path d="M0 0H199V423H622V622H0Z"/></svg></div>
+      </div>
+      <div class="aa-copy">
+        <p class="aa-quote" data-quote>Saying it is hard.<br>Finding out it’s <span class="red">mutual</span> isn’t.</p>
+        <ul class="aa-points">
+          <li>Picks are sealed. Nobody can peek.</li>
+          <li>Results only when it’s mutual.</li>
+          <li>Every class is wiped 3 days after reveal.</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Forms -->
+    <main class="auth-main" id="main">
+      <div class="auth-top">
+        <a class="brand auth-brand-sm" href="./" aria-label="Likewise home">
+          <svg class="mark" viewBox="64 64 896 896" aria-hidden="true"><path class="m-red" fill="#EC3013" d="M338 64H960V686H761V263H338Z"/><path class="m-ink" fill="#201E1D" d="M64 338H263V761H686V960H64Z"/></svg>
+          <img class="wordmark" src="assets/img/wordmark.png" alt="Likewise" width="1797" height="328">
+        </a>
+        <a class="link small" href="./">← Back to home</a>
+      </div>
+
+      <div class="auth-card" data-auth-card>
+        <div class="auth-tabs" role="tablist" aria-label="Account" data-tabs>
+          <button class="auth-tab" role="tab" type="button" id="tab-signin" aria-controls="form-signin" aria-selected="true" data-tab="signin">Sign in</button>
+          <button class="auth-tab" role="tab" type="button" id="tab-signup" aria-controls="form-signup" aria-selected="false" data-tab="signup">Create account</button>
+          <span class="auth-tab-ink" data-tab-ink aria-hidden="true"></span>
+        </div>
+
+        <!-- SIGN IN -->
+        <form method="post" class="auth-form" id="form-signin" role="tabpanel" aria-labelledby="tab-signin" data-form="signin" novalidate>
+          <header class="auth-head">
+            <h1 class="display display-s">Welcome back.</h1>
+            <p class="muted">Sign in to see your classes and results.</p>
+          </header>
+          <div class="field">
+            <label for="si-email">Email</label>
+            <input class="input" id="si-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <div class="field">
+            <label for="si-password">Password</label>
+            <div class="input-wrap">
+              <input class="input" id="si-password" name="password" type="password" autocomplete="current-password" required>
+              <button class="suffix" type="button" data-show-pw aria-label="Show password" aria-controls="si-password">Show</button>
+            </div>
+          </div>
+          <div class="auth-row">
+            <label class="check"><input type="checkbox" name="remember" checked> Keep me signed in</label>
+            <button class="link small" type="button" data-go="forgot">Forgot password?</button>
+          </div>
+          <p class="hint" data-remember-hint>On a shared or school computer? Untick this so you’re signed out when the browser closes.</p>
+          <p class="form-error" role="alert" data-form-error hidden></p>
+          <button class="btn btn-lg btn-block" type="submit">Sign in <svg class="icon arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
+          <p class="auth-switch small muted">New here? <button class="link" type="button" data-go="signup">Create an account</button></p>
+        </form>
+
+        <!-- SIGN UP -->
+        <form method="post" class="auth-form" id="form-signup" role="tabpanel" aria-labelledby="tab-signup" data-form="signup" novalidate hidden>
+          <header class="auth-head">
+            <h1 class="display display-s">Make it mutual.</h1>
+            <p class="muted">Takes 30 seconds. You’ll verify your email next.</p>
+          </header>
+          <div class="field">
+            <label for="su-name">Your name</label>
+            <input class="input" id="su-name" name="name" type="text" autocomplete="nickname" maxlength="24" required>
+            <p class="hint">Use the name your classmates know you by, like <b>Maya J.</b> It’s what they’ll see in the class list.</p>
+          </div>
+          <div class="field">
+            <label for="su-email">Email</label>
+            <input class="input" id="su-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <div class="field">
+            <label for="su-password">Password</label>
+            <div class="input-wrap">
+              <input class="input" id="su-password" name="password" type="password" autocomplete="new-password" required aria-describedby="pw-meter-label">
+              <button class="suffix" type="button" data-show-pw aria-label="Show password" aria-controls="su-password">Show</button>
+            </div>
+            <div class="pw-meter" data-pw-meter data-score="0" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <div class="pw-meta">
+              <span id="pw-meter-label" class="hint" data-pw-label>At least 8 characters, with a letter and a number.</span>
+            </div>
+            <ul class="pw-checks" data-pw-checks>
+              <li data-check="length">8+ characters</li>
+              <li data-check="letter">A letter</li>
+              <li data-check="number">A number</li>
+            </ul>
+          </div>
+          <label class="check">
+            <input type="checkbox" name="terms" required>
+            <span>I’m 13 or older and I agree to the <a class="link" href="terms.html" target="_blank" rel="noopener">Terms</a> and <a class="link" href="privacy.html" target="_blank" rel="noopener">Privacy policy</a>.</span>
+          </label>
+          <p class="form-error" role="alert" data-form-error hidden></p>
+          <button class="btn btn-lg btn-block btn-red" type="submit">Create account <svg class="icon arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
+          <p class="auth-switch small muted">Already have an account? <button class="link" type="button" data-go="signin">Sign in</button></p>
+        </form>
+
+        <!-- FORGOT -->
+        <form method="post" class="auth-form" id="form-forgot" data-form="forgot" novalidate hidden>
+          <header class="auth-head">
+            <h1 class="display display-s">Forgot it? Happens.</h1>
+            <p class="muted">Enter your email and we’ll send you a secure link to set a new password.</p>
+          </header>
+          <div class="field">
+            <label for="fp-email">Email</label>
+            <input class="input" id="fp-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <p class="form-error" role="alert" data-form-error hidden></p>
+          <button class="btn btn-lg btn-block" type="submit">Send reset link</button>
+          <p class="auth-switch small muted"><button class="link" type="button" data-go="signin">← Back to sign in</button></p>
+        </form>
+
+        <!-- SENT -->
+        <div class="auth-form auth-sent" data-form="sent" hidden tabindex="-1">
+          <div class="sent-art" aria-hidden="true"><span class="sa-red"></span><span class="sa-ink"></span></div>
+          <h1 class="display display-s">Check your inbox.</h1>
+          <p class="muted">If an account exists for <b data-sent-email></b>, a reset link is on its way. It can take a minute. Check spam too.</p>
+          <button class="btn btn-ghost btn-block" type="button" data-resend disabled>Resend</button>
+          <p class="auth-switch small muted"><button class="link" type="button" data-go="signin">← Back to sign in</button></p>
+        </div>
+      </div>
+
+      <p class="auth-legal tiny muted">Protected by Firebase Authentication. We never see your password.</p>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,448 @@
+rules_version = '2';
+
+// =====================================================================
+//  LIKEWISE: Cloud Firestore Security Rules
+// ---------------------------------------------------------------------
+//  The promise these rules enforce:
+//    * Nobody can read who you picked. Not classmates, not the host,
+//      not a student poking at the API from DevTools.
+//    * The ONLY way a pick is ever readable by someone else is when:
+//        - the reveal date has passed, AND
+//        - the pick points at the reader, AND
+//        - the reader's own (locked) pick points back.
+//      i.e. it is mutual. One-sided picks are never readable by anyone.
+//    * One pick per person per class, frozen at the reveal moment, so
+//      nobody can "probe" classmates one by one after the reveal.
+//    * The reveal date can never be moved once a class is created.
+//    * A class (and everything in it) is locked 3 days after reveal.
+//
+//  Data model
+//    users/{uid}                              private profile
+//    users/{uid}/memberships/{classId}        "my classes" index
+//    joinCodes/{CODE}                         CODE -> classId (lobby only)
+//    classes/{classId}                        class info + status
+//    classes/{classId}/members/{uid}          roster (names only)
+//    classes/{classId}/picks/{uid}            sealed pick: { target }
+//    reports/{reportId}                       moderation reports
+//    admins/{uid}                             created by hand in console
+// =====================================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------------------------------------------------------------
+    //  Generic helpers
+    // ---------------------------------------------------------------
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function me() {
+      return request.auth.uid;
+    }
+
+    // Email/password users must click the link in their inbox first.
+    function verified() {
+      return signedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(me()));
+    }
+
+    // The written document has exactly these fields, no more, no less.
+    function hasExactly(fields) {
+      return request.resource.data.keys().hasAll(fields)
+        && request.resource.data.keys().hasOnly(fields);
+    }
+
+    // An update touches only these fields.
+    function changedOnly(fields) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(fields);
+    }
+
+    // ---------------------------------------------------------------
+    //  Paths
+    // ---------------------------------------------------------------
+    function classPath(classId) {
+      return /databases/$(database)/documents/classes/$(classId);
+    }
+
+    function memberPath(classId, userId) {
+      return /databases/$(database)/documents/classes/$(classId)/members/$(userId);
+    }
+
+    function pickPath(classId, userId) {
+      return /databases/$(database)/documents/classes/$(classId)/picks/$(userId);
+    }
+
+    function codePath(code) {
+      return /databases/$(database)/documents/joinCodes/$(code);
+    }
+
+    function userPath(userId) {
+      return /databases/$(database)/documents/users/$(userId);
+    }
+
+    // ---------------------------------------------------------------
+    //  Class helpers
+    // ---------------------------------------------------------------
+    function cls(classId) {
+      return get(classPath(classId)).data;
+    }
+
+    function isMember(classId) {
+      return exists(memberPath(classId, me()));
+    }
+
+    // The round is over for good (3 days after the reveal). Uses MY
+    // member doc, so cleanup still works after the class doc is gone.
+    function expiredForMe(classId) {
+      return isMember(classId)
+        && request.time >= get(memberPath(classId, me())).data.expireAt;
+    }
+
+    // ---------------------------------------------------------------
+    //  Field validators
+    // ---------------------------------------------------------------
+    // Letters (any language), spaces, apostrophes, dots, hyphens.
+    // Rendering is always done with textContent, never HTML.
+    function validDisplayName(n) {
+      return n is string
+        && n.size() >= 2 && n.size() <= 24
+        && n == n.trim()
+        && n.matches("^[\\p{L}\\p{M}][\\p{L}\\p{M} .'-]*$")
+        && !n.matches(".*  .*");
+    }
+
+    function validClassName(n) {
+      return n is string
+        && n.size() >= 2 && n.size() <= 40
+        && n == n.trim()
+        && n.matches("^[\\p{L}\\p{M}\\p{N} .,'&#()!?:+-]+$")
+        && !n.matches(".*  .*");
+    }
+
+    // 6 chars, no look-alikes (no I, O, 0, 1).
+    function validCode(c) {
+      return c is string && c.matches('^[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$');
+    }
+
+    function validUid(u) {
+      return u is string && u.matches('^[A-Za-z0-9_-]{1,128}$');
+    }
+
+    // =================================================================
+    //  users/{uid}: private profile, only the owner can see it
+    // =================================================================
+    match /users/{userId} {
+      allow get: if signedIn() && me() == userId;
+      allow list: if false;
+
+      allow create: if signedIn() && me() == userId
+        && hasExactly(['displayName', 'createdAt'])
+        && validDisplayName(request.resource.data.displayName)
+        && request.resource.data.createdAt == request.time;
+
+      allow update: if signedIn() && me() == userId
+        && request.resource.data.keys().hasOnly(['displayName', 'createdAt', 'updatedAt'])
+        && changedOnly(['displayName', 'updatedAt'])
+        && validDisplayName(request.resource.data.displayName)
+        && request.resource.data.updatedAt == request.time;
+
+      allow delete: if signedIn() && me() == userId;
+
+      // ---------------------------------------------------------------
+      //  users/{uid}/memberships/{classId}: "my classes" list
+      // ---------------------------------------------------------------
+      match /memberships/{classId} {
+        allow read: if signedIn() && me() == userId;
+        allow create: if signedIn() && me() == userId && validMembership(userId, classId);
+        allow update: if false;
+        allow delete: if signedIn() && me() == userId;
+      }
+    }
+
+    function validMembership(userId, classId) {
+      let d = request.resource.data;
+      let c = getAfter(classPath(classId)).data;
+      return hasExactly(['className', 'role', 'revealAt', 'expireAt', 'joinedAt'])
+        && existsAfter(memberPath(classId, userId))
+        && d.className == c.name
+        && d.revealAt == c.revealAt
+        && d.expireAt == c.expireAt
+        && d.role in ['host', 'member']
+        && (d.role == 'host') == (c.hostUid == userId)
+        && d.joinedAt == request.time;
+    }
+
+    // =================================================================
+    //  joinCodes/{CODE}: lets people find a class by its code.
+    //  Only exists while the class is in the lobby.
+    // =================================================================
+    match /joinCodes/{code} {
+      // You must know the exact code. Listing/browsing is impossible.
+      allow get: if verified();
+      allow list: if false;
+
+      allow create: if verified() && validCode(code) && validJoinCode(code);
+      allow update: if false;
+
+      allow delete: if signedIn() && (
+        resource == null
+        || request.time >= resource.data.expireAt
+        || isAdmin()
+        || get(classPath(resource.data.classId)).data.hostUid == me()
+      );
+    }
+
+    function validJoinCode(code) {
+      let d = request.resource.data;
+      let c = getAfter(classPath(d.classId)).data;
+      return hasExactly(['classId', 'className', 'hostName', 'revealAt', 'expireAt'])
+        && validUid(d.classId)
+        && c.hostUid == me()
+        && c.code == code
+        && c.status == 'lobby'
+        && d.className == c.name
+        && d.hostName == c.hostName
+        && d.revealAt == c.revealAt
+        && d.expireAt == c.expireAt;
+    }
+
+    // =================================================================
+    //  classes/{classId}
+    // =================================================================
+    match /classes/{classId} {
+      // Only members, and only until 3 days after the reveal.
+      allow get: if signedIn() && isMember(classId) && request.time < resource.data.expireAt;
+      allow list: if false;
+
+      allow create: if verified() && validNewClass(classId);
+
+      allow update: if signedIn() && (
+        hostStarts()
+        || hostKicks()
+        || pickCounter(classId)
+      );
+
+      allow delete: if signedIn() && (
+        // Host cancels before starting. Once live it can't be killed.
+        (resource.data.hostUid == me() && resource.data.status == 'lobby')
+        // Cleanup by any member after the class has expired.
+        || (isMember(classId) && request.time >= resource.data.expireAt)
+        || isAdmin()
+      );
+
+      // ---------------------------------------------------------------
+      //  classes/{classId}/members/{uid}: the roster
+      // ---------------------------------------------------------------
+      match /members/{memberId} {
+        allow read: if signedIn() && isMember(classId);
+
+        allow create: if verified() && memberId == me() && validJoin(classId);
+        allow update: if false;
+
+        allow delete: if signedIn() && (
+          // Your own doc: after expiry, or if the class no longer exists.
+          (memberId == me() && (
+            resource == null
+            || request.time >= resource.data.expireAt
+            || !existsAfter(classPath(classId))
+          ))
+          || isAdmin()
+          // Any member can sweep an expired class.
+          || expiredForMe(classId)
+          // Lobby only: a member leaves, or the host kicks someone.
+          || leaveOrKickInLobby(classId, memberId)
+        );
+      }
+
+      // ---------------------------------------------------------------
+      //  classes/{classId}/picks/{uid}: the sealed picks
+      //  Doc id = the person who picked, so it's one pick per person.
+      // ---------------------------------------------------------------
+      match /picks/{pickerId} {
+        allow get: if signedIn() && isMember(classId) && (
+          // Your own pick, so you can see/change it.
+          (pickerId == me() && request.time < cls(classId).expireAt)
+          // Someone else's pick: only if it's mutual, after reveal.
+          || mutualReveal(classId, pickerId)
+        );
+        // Never allow queries over picks. Not even for the host or admins.
+        allow list: if false;
+
+        allow create: if verified() && pickerId == me() && canPick(classId)
+          && hasExactly(['target', 'updatedAt', 'expireAt'])
+          && validPickData(classId)
+          // Must bump the class pick counter in the same batch.
+          && getAfter(classPath(classId)).data.pickCount == cls(classId).pickCount + 1;
+
+        allow update: if verified() && pickerId == me() && canPick(classId)
+          && changedOnly(['target', 'updatedAt'])
+          && validPickData(classId);
+
+        allow delete: if signedIn() && (
+          // Un-pick before the reveal (and lower the counter with it).
+          (pickerId == me() && canPick(classId)
+            && getAfter(classPath(classId)).data.pickCount == cls(classId).pickCount - 1)
+          // Your own pick in a class that no longer exists.
+          || (pickerId == me() && !existsAfter(classPath(classId)))
+          // Sweep after expiry. Deleting reveals nothing.
+          || expiredForMe(classId)
+        );
+      }
+    }
+
+    function validNewClass(classId) {
+      let d = request.resource.data;
+      return hasExactly(['name', 'hostUid', 'hostName', 'code', 'status', 'createdAt',
+                         'revealAt', 'expireAt', 'pickCount', 'kicked'])
+        && validUid(classId)
+        && validClassName(d.name)
+        && d.hostUid == me()
+        && d.hostName == get(userPath(me())).data.displayName
+        && validCode(d.code)
+        && d.status == 'lobby'
+        && d.createdAt == request.time
+        && d.revealAt is timestamp
+        && d.revealAt >= request.time + duration.value(10, 'm')
+        && d.revealAt <= request.time + duration.value(60, 'd')
+        // Removed exactly 3 days after the results come out.
+        && d.expireAt == d.revealAt + duration.value(3, 'd')
+        && d.pickCount == 0
+        && d.kicked == []
+        // The host joins as a member and reserves the code atomically.
+        && existsAfter(memberPath(classId, me()))
+        && getAfter(codePath(d.code)).data.classId == classId;
+    }
+
+    // Lobby -> live. Nothing else can change. revealAt is frozen forever.
+    function hostStarts() {
+      return resource.data.hostUid == me()
+        && resource.data.status == 'lobby'
+        && request.time < resource.data.revealAt
+        && changedOnly(['status', 'startedAt'])
+        && request.resource.data.status == 'live'
+        && request.resource.data.startedAt == request.time;
+    }
+
+    // Host adds exactly one person to the kicked list (lobby only).
+    function hostKicks() {
+      let before = resource.data.kicked;
+      let after = request.resource.data.kicked;
+      return resource.data.hostUid == me()
+        && resource.data.status == 'lobby'
+        && changedOnly(['kicked'])
+        && after is list
+        && after.size() == before.size() + 1
+        && after.size() <= 200
+        && after.hasAll(before)
+        && !(me() in after);
+    }
+
+    // pickCount moves by exactly +1 / -1, and only together with the
+    // caller creating / deleting their OWN pick in the same batch.
+    function pickCounter(classId) {
+      let had = exists(pickPath(classId, me()));
+      let has = existsAfter(pickPath(classId, me()));
+      let delta = request.resource.data.pickCount - resource.data.pickCount;
+      return isMember(classId)
+        && resource.data.status == 'live'
+        && request.time < resource.data.revealAt
+        && changedOnly(['pickCount'])
+        && ((!had && has && delta == 1) || (had && !has && delta == -1));
+    }
+
+    function validJoin(classId) {
+      let d = request.resource.data;
+      let c = getAfter(classPath(classId)).data;
+      return hasExactly(['displayName', 'code', 'tone', 'joinedAt', 'expireAt'])
+        && c.status == 'lobby'
+        && !(me() in c.kicked)
+        // You had to know the code, and the code must still be active.
+        && d.code == c.code
+        && getAfter(codePath(c.code)).data.classId == classId
+        // Your roster name is your profile name. No per-class aliases.
+        && d.displayName == get(userPath(me())).data.displayName
+        && d.tone is int && d.tone >= 0 && d.tone <= 7
+        && d.joinedAt == request.time
+        && d.expireAt == c.expireAt;
+    }
+
+    function leaveOrKickInLobby(classId, memberId) {
+      let c = cls(classId);
+      return c.status == 'lobby' && (
+        (memberId == me() && c.hostUid != me())     // a member leaves
+        || (c.hostUid == me() && memberId != me())  // the host kicks someone
+      );
+    }
+
+    function canPick(classId) {
+      let c = cls(classId);
+      return isMember(classId)
+        && c.status == 'live'
+        && request.time < c.revealAt;
+    }
+
+    function validPickData(classId) {
+      let d = request.resource.data;
+      return validUid(d.target)
+        && d.target != me()
+        && exists(memberPath(classId, d.target))
+        && d.updatedAt == request.time
+        && d.expireAt == cls(classId).expireAt;
+    }
+
+    // The heart of Likewise. Reading someone else's pick needs ALL of:
+    //  - reveal time has passed (picks are frozen at this point)
+    //  - the class hasn't expired
+    //  - their pick targets me
+    //  - my own pick targets them
+    // If any is false (or a doc is missing) the read is denied, and the
+    // denial looks identical in every case, so it leaks nothing.
+    function mutualReveal(classId, pickerId) {
+      let c = cls(classId);
+      return pickerId != me()
+        && request.time >= c.revealAt
+        && request.time < c.expireAt
+        && resource.data.target == me()
+        && get(pickPath(classId, me())).data.target == pickerId;
+    }
+
+    // =================================================================
+    //  reports/{id}: write-only for students, readable by admins
+    // =================================================================
+    match /reports/{reportId} {
+      allow create: if verified() && validReport();
+      allow read, delete: if isAdmin();
+      allow update: if false;
+    }
+
+    function validReport() {
+      let d = request.resource.data;
+      return d.keys().hasAll(['reporterUid', 'classId', 'reason', 'details', 'createdAt'])
+        && d.keys().hasOnly(['reporterUid', 'classId', 'className', 'targetUid',
+                             'targetName', 'reason', 'details', 'createdAt'])
+        && d.reporterUid == me()
+        && validUid(d.classId)
+        && (!('className' in d) || (d.className is string && d.className.size() <= 40))
+        && (!('targetUid' in d) || validUid(d.targetUid))
+        && (!('targetName' in d) || (d.targetName is string && d.targetName.size() <= 24))
+        && d.reason in ['inappropriate-name', 'impersonation', 'harassment', 'spam', 'other']
+        && d.details is string && d.details.size() <= 500
+        && d.createdAt == request.time
+        && isMember(d.classId);
+    }
+
+    // =================================================================
+    //  admins/{uid}: add by hand in the Firebase console. Read-only.
+    // =================================================================
+    match /admins/{adminId} {
+      allow get: if signedIn() && me() == adminId;
+      allow list, write: if false;
+    }
+
+    // Everything not matched above is denied by default.
+  }
+}

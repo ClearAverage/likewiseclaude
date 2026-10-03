@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-4kZbNIIcPIIY7MzbykMAFKCkSTsnjjTl/zZWVWlCesc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <title>Not found · Likewise</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Inter+Tight:wght@800&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: #fff; color: #201E1D; font: 400 17px/1.55 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    main { min-height: 100%; display: grid; place-items: center; text-align: center; padding: 40px 16px; }
+    .mark { position: relative; width: 160px; height: 160px; margin: 0 auto 40px; }
+    .r, .i { position: absolute; width: 69.42%; height: 69.42%; }
+    .r { right: 0; top: 0; border-top: 35px solid #EC3013; border-right: 35px solid #EC3013; animation: r 3s cubic-bezier(.65,0,.35,1) infinite; }
+    .i { left: 0; bottom: 0; border-bottom: 35px solid #201E1D; border-left: 35px solid #201E1D; animation: i 3s cubic-bezier(.65,0,.35,1) infinite; }
+    @keyframes r { 0%, 100% { transform: translate(34px, -34px) rotate(8deg); } 50% { transform: translate(24px, -24px) rotate(4deg); } }
+    @keyframes i { 0%, 100% { transform: translate(-34px, 34px) rotate(8deg); } 50% { transform: translate(-24px, 24px) rotate(4deg); } }
+    h1 { margin: 0 0 14px; font: 800 clamp(44px, 9vw, 96px)/0.92 "Inter Tight", Inter, sans-serif; letter-spacing: -0.05em; }
+    p { margin: 0 auto 32px; max-width: 40ch; color: #6B6764; }
+    a { display: inline-flex; align-items: center; height: 52px; padding: 0 24px; background: #201E1D; color: #fff; font-weight: 600; text-decoration: none; transition: background .3s; }
+    a:hover { background: #D02A10; }
+    a:focus-visible { outline: 2px solid #EC3013; outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { .r, .i { animation: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div>
+      <div class="mark" aria-hidden="true"><span class="r"></span><span class="i"></span></div>
+      <h1>No match<br>for this page.</h1>
+      <p>The link might be broken, or the page moved. Let’s get you back.</p>
+      <a href="/" data-home="">Go to Likewise</a>
+    </div>
+  </main>
+  <script>(function () {
+  var parts = location.pathname.split('/').filter(Boolean);
+  var candidate = location.hostname.slice(-10) === '.github.io' && parts.length ? '/' + parts[0] + '/' : '/';
+  function apply(base) {
+    var links = document.querySelectorAll('[data-home]');
+    for (var i = 0; i < links.length; i++) links[i].href = base + links[i].getAttribute('data-home');
+  }
+  apply('/');
+  if (candidate !== '/') {
+    fetch(candidate + 'index.html', { method: 'HEAD' }).then(function (r) { if (r.ok) apply(candidate); }).catch(function () {});
+  }
+})();</script>
+</body>
+</html>

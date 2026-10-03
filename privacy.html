@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Privacy · Likewise</title>
+  <meta name="description" content="What Likewise stores, who can see it, and how long it's kept.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@700;800;900&display=swap">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <script src="assets/js/boot.js"></script>
+  <script type="module" src="assets/js/static-page.js"></script>
+</head>
+<body>
+  <div class="simple-page">
+    <header class="simple-top">
+      <div class="container">
+        <a class="brand" href="./" aria-label="Likewise home">
+          <svg class="mark" viewBox="64 64 896 896" aria-hidden="true"><path class="m-red" fill="#EC3013" d="M338 64H960V686H761V263H338Z"/><path class="m-ink" fill="#201E1D" d="M64 338H263V761H686V960H64Z"/></svg>
+          <img class="wordmark" src="assets/img/wordmark.png" alt="Likewise" width="1797" height="328">
+        </a>
+        <a class="btn btn-sm" href="app.html">Open app</a>
+      </div>
+    </header>
+
+    <main class="legal" id="main">
+      <article class="container-sm">
+        <p class="eyebrow" data-reveal>Privacy policy</p>
+        <h1 data-split>Your secret stays yours.</h1>
+        <p class="updated" data-reveal>Plain-English version. Last updated October 2026.</p>
+
+        <div class="callout" data-reveal>
+          <p><b>The short version:</b> your pick is sealed by the database itself. The only person who can ever see it is the person you picked, and only if they picked you too. Every class is locked and wiped 3 days after its reveal.</p>
+        </div>
+
+        <h2>What we store</h2>
+        <ul>
+          <li><span><b>Your account:</b> your email address and a password. Passwords are handled by Firebase Authentication (Google) and stored hashed. Likewise never sees your password.</span></li>
+          <li><span><b>Your profile:</b> the display name you choose.</span></li>
+          <li><span><b>Your classes:</b> which classes you’re in, the class name, the host, and the reveal date.</span></li>
+          <li><span><b>Your pick:</b> who you chose in each class, and when.</span></li>
+          <li><span><b>Reports</b> you send, if any.</span></li>
+          <li><span><b>Basic analytics:</b> anonymous page views through Google Analytics, so we know if the site is working. We never send names, classes or picks to analytics.</span></li>
+        </ul>
+
+        <h2>Who can see what</h2>
+        <ul>
+          <li><span><b>Classmates in the same class</b> can see your display name in the class list. That’s it.</span></li>
+          <li><span><b>Your pick</b> can’t be read by classmates, the host, or any other account. The one exception: after the reveal, if the person you picked also picked you, the two of you can each see that it’s mutual.</span></li>
+          <li><span><b>If it isn’t mutual</b>, nobody learns anything. Not the person you picked, not anyone else.</span></li>
+          <li><span><b>The host</b> has no extra access. They can start the class and remove people from the lobby before it starts.</span></li>
+          <li><span><b>Site administrators.</b> To be fully honest: like every website owner, the people who run this Likewise site can technically open the database in Google’s admin console. The app itself never shows picks to anyone, admins included, and picks are deleted 3 days after each reveal.</span></li>
+        </ul>
+
+        <h2>How long we keep it</h2>
+        <ul>
+          <li><span><b>Class data</b> (the roster and everyone’s picks) is locked 3 days after the reveal, so nobody can read it anymore, and then deleted.</span></li>
+          <li><span><b>Your account</b> stays until you delete it from the Account page.</span></li>
+          <li><span><b>Reports</b> are kept only as long as moderators need them.</span></li>
+        </ul>
+
+        <h2>Your controls</h2>
+        <p>You can change your name, email and password, or delete your account at any time from the Account page in the app. Deleting your account removes your profile and any picks that can still be changed.</p>
+
+        <h2>How it’s protected</h2>
+        <ul>
+          <li><span>Server-side security rules decide every read and write. A browser, script or modified app can’t get around them.</span></li>
+          <li><span>Email verification is required before you can join or host a class.</span></li>
+          <li><span>The reveal date can’t be changed by anyone after a class is created.</span></li>
+          <li><span>Picks freeze at the reveal, so nobody can switch picks to test who liked them.</span></li>
+          <li><span>Nothing about your picks is saved to your device’s storage.</span></li>
+        </ul>
+
+        <h2>Age</h2>
+        <p>Likewise is for people 13 and older. If you’re under 13, please don’t create an account.</p>
+
+        <h2>Questions</h2>
+        <p>Questions about your data? Contact the people who run this Likewise site.</p>
+        <!-- SITE OWNER: add a contact email here, e.g. <p><a class="link" href="mailto:you@example.com">you@example.com</a></p> -->
+      </article>
+    </main>
+  </div>
+</body>
+</html>

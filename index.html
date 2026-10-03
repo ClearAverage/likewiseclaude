@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.g.doubleclick.net; connect-src 'self' https://*.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://www.google.com http://127.0.0.1:9099 http://127.0.0.1:8080; frame-src https://www.google.com https://recaptcha.google.com https://likewise-64c33.firebaseapp.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Likewise: Say it without saying it</title>
+  <meta name="description" content="Secret crush matching for your class. Pick your crush in secret. If they pick you too, you both find out on reveal day. If not, nobody ever knows.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Likewise">
+  <meta property="og:title" content="Likewise: Say it without saying it">
+  <meta property="og:description" content="Secret crush matching for your class. Mutual or nothing.">
+  <meta property="og:image" content="assets/img/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:ital,wght@0,600;0,700;0,800;0,900;1,800&display=swap">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/landing.css">
+  <script src="assets/js/boot.js"></script>
+  <script type="module" src="assets/js/landing.js"></script>
+</head>
+<body class="landing">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="progress-bar" aria-hidden="true"></div>
+
+  <!-- ============================== NAV ============================== -->
+  <header class="site-nav" data-nav>
+    <div class="container nav-inner">
+      <a class="brand" href="./" aria-label="Likewise home">
+        <svg class="mark" viewBox="64 64 896 896" aria-hidden="true"><path class="m-red" fill="#EC3013" d="M338 64H960V686H761V263H338Z"/><path class="m-ink" fill="#201E1D" d="M64 338H263V761H686V960H64Z"/></svg>
+        <img class="wordmark" src="assets/img/wordmark.png" alt="Likewise" width="1797" height="328">
+      </a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="#how">How it works</a>
+        <a href="#demo">Try it</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="nav-signin" href="auth.html" data-auth-link>Sign in</a>
+        <a class="btn btn-sm" href="auth.html?mode=signup" data-start-link data-magnetic="0.2">Get started</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu" data-menu-toggle>
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu" data-menu aria-hidden="true" inert>
+    <nav class="mm-links" aria-label="Mobile">
+      <a href="#how" data-menu-link>How it works</a>
+      <a href="#demo" data-menu-link>Try it</a>
+      <a href="#privacy" data-menu-link>Privacy</a>
+      <a href="#faq" data-menu-link>FAQ</a>
+    </nav>
+    <div class="mm-actions">
+      <a class="btn btn-block btn-lg" href="auth.html?mode=signup" data-start-link>Get started</a>
+      <a class="btn btn-ghost btn-block btn-lg" href="auth.html" data-auth-link>Sign in</a>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- ============================== HERO ============================== -->
+    <section class="hero" data-hero>
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-grid"></div>
+        <div class="hero-glow"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow" data-reveal>Secret crush matching for your class</p>
+          <h1 class="display display-xl hero-title" data-split>Say it<br>without<br><span class="red">saying</span> it.</h1>
+          <p class="lede hero-lede" data-reveal style="--delay: 520ms">
+            Pick your crush in secret. If they pick you too, you both find out on reveal day.
+            If they don’t, <strong>nobody ever knows.</strong>
+          </p>
+          <div class="hero-actions" data-reveal style="--delay: 650ms">
+            <form class="code-form" data-code-form novalidate>
+              <label class="sr-only" for="hero-code">Class code</label>
+              <input id="hero-code" class="code-input" name="code" size="8" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="7" placeholder="CLASS CODE" aria-describedby="hero-code-hint">
+              <button class="btn" type="submit">Join
+                <svg class="icon arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+              </button>
+            </form>
+            <a class="btn btn-ghost" href="auth.html?mode=signup&amp;next=app.html%23%2Fnew" data-host-link data-magnetic="0.2">Host a class</a>
+          </div>
+          <p class="hero-note small" id="hero-code-hint" data-reveal style="--delay: 780ms">
+            <span>Free</span><span>13+</span><span>Works on any phone</span>
+          </p>
+        </div>
+
+        <div class="hero-art" data-hero-art aria-hidden="true">
+          <div class="ha-stage" data-ha-stage>
+            <div class="ha-l ha-red" data-ha-red><svg viewBox="0 0 622 622"><path d="M0 0H622V622H423V199H0Z"/></svg></div>
+            <div class="ha-l ha-ink" data-ha-ink><svg viewBox="0 0 622 622"><path d="M0 0H199V423H622V622H0Z"/></svg></div>
+
+            <div class="ha-chip" style="--cx: 2%; --cy: 6%; --depth: 1.2; --bob: 6.5s"><span class="avatar tone-1" style="--size: 30px">MJ</span>Maya J.</div>
+            <div class="ha-chip" style="--cx: 64%; --cy: -2%; --depth: 0.7; --bob: 7.5s"><span class="avatar tone-0" style="--size: 30px">LT</span>Leo T.</div>
+            <div class="ha-chip" style="--cx: 78%; --cy: 74%; --depth: 1.4; --bob: 6s"><span class="avatar tone-4" style="--size: 30px">AR</span>Ava R.</div>
+            <div class="ha-chip" style="--cx: -8%; --cy: 58%; --depth: 0.9; --bob: 8s"><span class="avatar tone-2" style="--size: 30px">NK</span>Noah K.</div>
+            <div class="ha-chip is-picked" style="--cx: 30%; --cy: 88%; --depth: 1.1; --bob: 7s"><span class="avatar tone-3" style="--size: 30px">SP</span>Sam P. <b class="ha-lock">picked</b></div>
+
+            <div class="ha-toast" data-ha-toast>
+              <svg class="ha-toast-mark" viewBox="64 64 896 896"><path fill="#EC3013" d="M338 64H960V686H761V263H338Z"/><path fill="#201E1D" d="M64 338H263V761H686V960H64Z"/></svg>
+              <div>
+                <b data-ha-toast-title>It’s mutual.</b>
+                <span data-ha-toast-text>You &amp; Sam picked each other.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a class="scroll-cue" href="#manifesto" aria-label="Scroll to learn more"><span></span></a>
+    </section>
+
+    <!-- ============================== MARQUEE ============================== -->
+    <section class="marquee" aria-hidden="true">
+      <div class="mq-row" data-mq="1">
+        <div class="mq-track">
+          <span>Pick in secret</span><i class="mq-mark"></i><span>Mutual or nothing</span><i class="mq-mark"></i><span>Reveal day</span><i class="mq-mark"></i><span>Nobody finds out</span><i class="mq-mark"></i>
+          <span>Pick in secret</span><i class="mq-mark"></i><span>Mutual or nothing</span><i class="mq-mark"></i><span>Reveal day</span><i class="mq-mark"></i><span>Nobody finds out</span><i class="mq-mark"></i>
+        </div>
+      </div>
+      <div class="mq-row mq-outline" data-mq="-1">
+        <div class="mq-track">
+          <span>Likewise</span><i class="mq-mark"></i><span>Same here</span><i class="mq-mark"></i><span>Me too</span><i class="mq-mark"></i><span>Likewise</span><i class="mq-mark"></i><span>Same here</span><i class="mq-mark"></i><span>Me too</span><i class="mq-mark"></i>
+          <span>Likewise</span><i class="mq-mark"></i><span>Same here</span><i class="mq-mark"></i><span>Me too</span><i class="mq-mark"></i><span>Likewise</span><i class="mq-mark"></i><span>Same here</span><i class="mq-mark"></i><span>Me too</span><i class="mq-mark"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== MANIFESTO ============================== -->
+    <section class="manifesto" id="manifesto">
+      <div class="container">
+        <p class="eyebrow" data-reveal>Why Likewise</p>
+        <p class="manifesto-text" data-words>
+          Phones made us loud online and quiet in real life. Saying
+          <em>“I like you”</em> out loud feels impossible, so most crushes just&nbsp;fade.
+          Likewise only speaks up when the feeling is <span class="red">mutual</span>.
+          Until then, your secret stays yours.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================== HOW IT WORKS ============================== -->
+    <section class="how" id="how">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow" data-reveal>How it works</p>
+          <h2 class="display display-l" data-split>Four steps.<br>Zero awkward.</h2>
+        </header>
+
+        <div class="how-grid">
+          <div class="how-phone-col">
+            <div class="phone" data-phone data-step="1">
+              <div class="phone-frame">
+                <div class="phone-island"></div>
+                <div class="phone-screen">
+                  <!-- 1: create -->
+                  <div class="ps" data-ps="1">
+                    <div class="m-top"><span class="m-dot"></span><b>New class</b><span class="m-step">1/4</span></div>
+                    <div class="m-field"><span class="m-label">Class name</span><span class="m-input">Period 3 Chemistry</span></div>
+                    <div class="m-field"><span class="m-label">Results drop</span><span class="m-input">Fri, Oct 17 · 3:00 PM</span></div>
+                    <div class="m-codebox">
+                      <span class="m-label">Share this code</span>
+                      <div class="m-tiles"><b>K</b><b>7</b><b>Q</b><b>2</b><b>M</b><b>X</b></div>
+                    </div>
+                    <div class="m-btn">Open the lobby</div>
+                  </div>
+                  <!-- 2: lobby -->
+                  <div class="ps" data-ps="2">
+                    <div class="m-top"><span class="m-dot is-live"></span><b>Lobby</b><span class="m-count">14 joined</span></div>
+                    <p class="m-sub">Waiting for everyone…</p>
+                    <div class="m-roster">
+                      <span class="avatar tone-1">MJ</span><span class="avatar tone-0">LT</span><span class="avatar tone-4">AR</span><span class="avatar tone-2">NK</span>
+                      <span class="avatar tone-3">SP</span><span class="avatar tone-5">ED</span><span class="avatar tone-6">RB</span><span class="avatar tone-0">JC</span>
+                      <span class="avatar tone-4">KW</span><span class="avatar tone-1">OM</span><span class="avatar tone-7">ZH</span><span class="avatar tone-2">IV</span>
+                      <span class="avatar tone-5">PG</span><span class="avatar tone-3">TF</span>
+                    </div>
+                    <div class="m-btn m-btn-red">Start: doors close</div>
+                  </div>
+                  <!-- 3: pick -->
+                  <div class="ps" data-ps="3">
+                    <div class="m-top"><span class="m-dot is-live"></span><b>Choose one</b><span class="m-count">9/14 locked</span></div>
+                    <div class="m-grid">
+                      <span class="m-person"><span class="avatar tone-1">MJ</span>Maya</span>
+                      <span class="m-person"><span class="avatar tone-0">LT</span>Leo</span>
+                      <span class="m-person is-picked"><span class="avatar tone-3">SP</span>Sam</span>
+                      <span class="m-person"><span class="avatar tone-4">AR</span>Ava</span>
+                      <span class="m-person"><span class="avatar tone-2">NK</span>Noah</span>
+                      <span class="m-person"><span class="avatar tone-5">ED</span>Eli</span>
+                    </div>
+                    <div class="m-sealed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4"/></svg>Only you can see this</div>
+                  </div>
+                  <!-- 4: reveal -->
+                  <div class="ps ps-reveal" data-ps="4">
+                    <div class="m-reveal-mark">
+                      <span class="mr-red"></span><span class="mr-ink"></span>
+                    </div>
+                    <b class="m-big">It’s mutual.</b>
+                    <p class="m-sub">You &amp; Sam picked each other.</p>
+                    <div class="m-confetti"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ol class="how-steps">
+            <li class="how-step" data-step="1">
+              <span class="how-num">01</span>
+              <h3>Roll up your class</h3>
+              <p>One student hosts. Name the class, pick the date results drop, and share the 6&#8209;letter code. The date is locked in. Nobody can move it.</p>
+              <div class="how-mini" data-mini="1"></div>
+            </li>
+            <li class="how-step" data-step="2">
+              <span class="how-num">02</span>
+              <h3>Everyone joins</h3>
+              <p>Classmates sign in and enter the code. The host checks every name is someone real, removes anyone sketchy, and hits Start. Doors close.</p>
+              <div class="how-mini" data-mini="2"></div>
+            </li>
+            <li class="how-step" data-step="3">
+              <span class="how-num">03</span>
+              <h3>Pick in secret</h3>
+              <p>Choose one person. Change your mind as often as you like until reveal day. Your pick is sealed, and nobody can see it. Not even the host.</p>
+              <div class="how-mini" data-mini="3"></div>
+            </li>
+            <li class="how-step" data-step="4">
+              <span class="how-num">04</span>
+              <h3>Reveal day</h3>
+              <p>If your crush picked you too, you both see it’s a match. If not, you’ll see <em>“No mutual match this round.”</em> They never find out. Three days later, the class disappears.</p>
+              <div class="how-mini" data-mini="4"></div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== DEMO ============================== -->
+    <section class="demo" id="demo">
+      <div class="container">
+        <header class="section-head center">
+          <p class="eyebrow" data-reveal>Try it</p>
+          <h2 class="display display-l" data-split>Mutual or nothing.</h2>
+          <p class="lede" data-reveal>Play both sides. Make a pick for you, make one for Sam, then hit reveal.</p>
+        </header>
+
+        <div class="demo-board" data-demo data-reveal="scale">
+          <div class="demo-side">
+            <div class="demo-who"><span class="avatar tone-0">YOU</span><div><b>You</b><span>pick one</span></div></div>
+            <div class="demo-choices" data-side="you" role="radiogroup" aria-label="Your pick">
+              <button type="button" class="demo-choice framed" role="radio" aria-checked="false" data-pick="sam"><span class="avatar tone-3" style="--size: 34px">SP</span>Sam</button>
+              <button type="button" class="demo-choice framed" role="radio" aria-checked="false" data-pick="riley"><span class="avatar tone-4" style="--size: 34px">RB</span>Riley</button>
+              <button type="button" class="demo-choice framed" role="radio" aria-checked="false" data-pick="jordan"><span class="avatar tone-2" style="--size: 34px">JC</span>Jordan</button>
+            </div>
+          </div>
+
+          <div class="demo-mid">
+            <div class="demo-mark" data-demo-mark aria-hidden="true">
+              <span class="dm-red"></span><span class="dm-ink"></span>
+            </div>
+            <p class="demo-result" data-demo-result aria-live="polite">Make both picks.</p>
+            <p class="demo-sub" data-demo-sub>&nbsp;</p>
+            <button type="button" class="btn btn-red" data-demo-reveal disabled>Reveal</button>
+          </div>
+
+          <div class="demo-side">
+            <div class="demo-who"><span class="avatar tone-3">SP</span><div><b>Sam</b><span>picks one</span></div></div>
+            <div class="demo-choices" data-side="sam" role="radiogroup" aria-label="Sam's pick">
+              <button type="button" class="demo-choice framed" role="radio" aria-checked="false" data-pick="you"><span class="avatar tone-0" style="--size: 34px">YOU</span>You</button>
+              <button type="button" class="demo-choice framed" role="radio" aria-checked="false" data-pick="riley"><span class="avatar tone-4" style="--size: 34px">RB</span>Riley</button>
+              <button type="button" class="demo-choice framed" role="radio" aria-checked="false" data-pick="jordan"><span class="avatar tone-2" style="--size: 34px">JC</span>Jordan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== PRIVACY ============================== -->
+    <section class="privacy" id="privacy">
+      <div class="container">
+        <div class="privacy-head">
+          <div>
+            <p class="eyebrow" data-reveal>Privacy, for real</p>
+            <h2 class="display display-l" data-split>Built so nobody<br>can peek.</h2>
+          </div>
+          <p class="lede" data-reveal>
+            Not your classmates. Not the host. Not the kid in the back row with DevTools open.
+            Picks are sealed by the database’s own security rules, so a pick can only ever be
+            read when it’s mutual.
+          </p>
+        </div>
+
+        <div class="privacy-grid">
+          <article class="p-card framed" data-reveal data-tilt="5" style="--i: 0">
+            <span class="p-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4M12 15v2"/></svg></span>
+            <h3>Sealed picks</h3>
+            <p>Your pick is locked by server-side rules. No app, no account, no script can read it unless your crush picked you back.</p>
+          </article>
+          <article class="p-card framed" data-reveal data-tilt="5" style="--i: 1">
+            <span class="p-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1"/><path d="M3 3l18 18"/></svg></span>
+            <h3>Hosts see nothing</h3>
+            <p>Hosting gives you a Start button, not a backstage pass. The host can’t see picks, can’t move the reveal date, and can’t end it early.</p>
+          </article>
+          <article class="p-card framed" data-reveal data-tilt="5" style="--i: 2">
+            <span class="p-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 2v20M4 6l16 12M20 6L4 18"/></svg></span>
+            <h3>Frozen at reveal</h3>
+            <p>One pick per person, and it freezes the second results drop. Nobody can switch picks afterwards to “test” who liked them.</p>
+          </article>
+          <article class="p-card framed" data-reveal data-tilt="5" style="--i: 3">
+            <span class="p-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg></span>
+            <h3>Gone in 3 days</h3>
+            <p>Results stay up for three days, then the class locks for good and gets wiped. No permanent record of who liked who.</p>
+          </article>
+          <article class="p-card framed" data-reveal data-tilt="5" style="--i: 4">
+            <span class="p-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M3 5h18v14H3z"/><path d="M3 6l9 7 9-7"/></svg></span>
+            <h3>Real people only</h3>
+            <p>Every account verifies its email, and names are locked once a class starts. The host approves the roster before anyone can pick.</p>
+          </article>
+          <article class="p-card framed" data-reveal data-tilt="5" style="--i: 5">
+            <span class="p-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 21V4h11l-2 4 2 4H5"/></svg></span>
+            <h3>One-tap reports</h3>
+            <p>Fake name? Something unkind? Report it from inside the class and it goes straight to the moderators.</p>
+          </article>
+        </div>
+
+        <div class="terminal" data-terminal data-reveal>
+          <div class="term-bar"><i></i><i></i><i></i><span>DevTools: Console</span></div>
+          <pre class="term-body" data-term-body aria-label="Example: trying to read someone else's pick from the browser console is denied"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== NUMBERS ============================== -->
+    <section class="numbers">
+      <div class="container numbers-grid">
+        <div class="num" data-reveal style="--i: 0"><b data-count="1" data-from="0">1</b><span>pick per round. Change it as often as you want before reveal day.</span></div>
+        <div class="num" data-reveal style="--i: 1"><b data-count="0" data-from="9" data-duration="1600">0</b><span>people find out if it isn’t mutual. Not them. Not anyone.</span></div>
+        <div class="num" data-reveal style="--i: 2"><b data-count="3" data-from="0">3</b><span>days after results drop, the whole class is wiped.</span></div>
+        <div class="num" data-reveal style="--i: 3"><b data-count="6" data-from="0">6</b><span>letters is all it takes to join your class.</span></div>
+      </div>
+    </section>
+
+    <!-- ============================== FAQ ============================== -->
+    <section class="faq" id="faq">
+      <div class="container faq-grid">
+        <header class="faq-head">
+          <p class="eyebrow" data-reveal>FAQ</p>
+          <h2 class="display display-m" data-split>Questions,<br>answered.</h2>
+          <p class="muted" data-reveal>Want the nerdy details? Read the <a class="link" href="privacy.html">privacy page</a>.</p>
+        </header>
+        <div class="faq-list" data-faq>
+          <div class="faq-item" data-reveal>
+            <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-1" id="faq-1-q">Can the host see who I picked?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+            <div class="faq-a" id="faq-1" role="region" aria-labelledby="faq-1-q"><div><p>No. The host is just a classmate with a Start button. Picks are sealed by the database itself, so the host’s account can’t read them, and neither can anyone else’s.</p></div></div>
+          </div>
+          <div class="faq-item" data-reveal>
+            <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-2" id="faq-2-q">What if my crush didn’t pick me?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+            <div class="faq-a" id="faq-2" role="region" aria-labelledby="faq-2-q"><div><p>Your results will say <em>“No mutual match this round.”</em> That’s it. They never find out you picked them, and nobody else does either.</p></div></div>
+          </div>
+          <div class="faq-item" data-reveal>
+            <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-3" id="faq-3-q">Can I change my pick?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+            <div class="faq-a" id="faq-3" role="region" aria-labelledby="faq-3-q"><div><p>Yes, as many times as you want until the reveal moment. Then every pick freezes for good.</p></div></div>
+          </div>
+          <div class="faq-item" data-reveal>
+            <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-4" id="faq-4-q">Why only one pick?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+            <div class="faq-a" id="faq-4" role="region" aria-labelledby="faq-4-q"><div><p>One pick keeps it honest and stops anyone from picking everybody just to find out who likes them.</p></div></div>
+          </div>
+          <div class="faq-item" data-reveal>
+            <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-5" id="faq-5-q">When do results come out?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+            <div class="faq-a" id="faq-5" role="region" aria-labelledby="faq-5-q"><div><p>At the date and time the host chose when they made the class. It can’t be moved, not even by the host. Open Likewise any time after that and check your Results tab.</p></div></div>
+          </div>
+          <div class="faq-item" data-reveal>
+            <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-6" id="faq-6-q">Who can join my class?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+            <div class="faq-a" id="faq-6" role="region" aria-labelledby="faq-6-q"><div><p>Only people with the code, and only before the host presses Start. The host can remove anyone they don’t recognize, and removed people can’t rejoin.</p></div></div>
+          </div>
+          <div class="faq-item" data-reveal>
+            <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-7" id="faq-7-q">Why do I have to verify my email?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+            <div class="faq-a" id="faq-7" role="region" aria-labelledby="faq-7-q"><div><p>It keeps out throwaway accounts and makes it much harder for someone to sneak into a class pretending to be someone else.</p></div></div>
+          </div>
+          <div class="faq-item" data-reveal>
+            <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-8" id="faq-8-q">I forgot my password. Now what?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+            <div class="faq-a" id="faq-8" role="region" aria-labelledby="faq-8-q"><div><p>Tap <a class="link" href="auth.html?mode=forgot">Forgot password</a> on the sign-in page. We’ll email you a secure link to set a new one.</p></div></div>
+          </div>
+          <div class="faq-item" data-reveal>
+            <h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-9" id="faq-9-q">Is it free? How old do I need to be?<span class="faq-icon" aria-hidden="true"></span></button></h3>
+            <div class="faq-a" id="faq-9" role="region" aria-labelledby="faq-9-q"><div><p>It’s free. You need to be 13 or older to make an account.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== CTA ============================== -->
+    <section class="cta" data-cta>
+      <div class="container cta-inner">
+        <div class="cta-mark" data-cta-mark aria-hidden="true">
+          <div class="ha-l ha-red"><svg viewBox="0 0 622 622"><path d="M0 0H622V622H423V199H0Z"/></svg></div>
+          <div class="ha-l ha-ink"><svg viewBox="0 0 622 622"><path d="M0 0H199V423H622V622H0Z"/></svg></div>
+        </div>
+        <div class="cta-copy">
+          <h2 class="display display-xl" data-split>Go first<br>without<br><span class="red">going</span> first.</h2>
+          <div class="cta-actions" data-reveal>
+            <a class="btn btn-lg" href="auth.html?mode=signup&amp;next=app.html%23%2Fnew" data-host-link data-magnetic="0.25">Host a class
+              <svg class="icon arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn btn-lg btn-ghost" href="auth.html?next=app.html%23%2Fjoin" data-join-link data-magnetic="0.25">Join with a code</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="./" aria-label="Likewise home">
+          <svg class="mark" viewBox="64 64 896 896" aria-hidden="true"><path class="m-red" fill="#EC3013" d="M338 64H960V686H761V263H338Z"/><path class="m-ink" fill="#201E1D" d="M64 338H263V761H686V960H64Z"/></svg>
+          <img class="wordmark" src="assets/img/wordmark.png" alt="Likewise" width="1797" height="328">
+        </a>
+        <p class="muted">Secret crush matching for your class.<br>Mutual or nothing.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <div>
+          <h4>Product</h4>
+          <a href="#how">How it works</a>
+          <a href="#demo">Try it</a>
+          <a href="#privacy">Privacy</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div>
+          <h4>Account</h4>
+          <a href="auth.html">Sign in</a>
+          <a href="auth.html?mode=signup">Create account</a>
+          <a href="auth.html?mode=forgot">Forgot password</a>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <a href="privacy.html">Privacy policy</a>
+          <a href="terms.html">Terms &amp; safety</a>
+        </div>
+      </nav>
+    </div>
+    <div class="container footer-base">
+      <span>© <span data-year>2026</span> Likewise</span>
+      <span>13+ only. Be kind.</span>
+    </div>
+    <div class="footer-giant" aria-hidden="true" data-parallax="-0.08">
+      <img src="assets/img/wordmark.png" alt="" width="1797" height="328" loading="lazy">
+    </div>
+  </footer>
+</body>
+</html>
