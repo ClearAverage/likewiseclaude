@@ -28,6 +28,11 @@ export const settings = {
   // Google Analytics page views (never on localhost, never with crush data).
   analytics: true,
 
+  // The "From" address shown on the verify-your-email screen. Leave empty to
+  // show Firebase's default (noreply@<project>.firebaseapp.com). If you set up
+  // custom SMTP (Setup guide), put that sender address here.
+  emailFrom: '',
+
   // false = localhost talks to your REAL Firebase project (like the live site).
   // To test with the fake local Firebase Emulator Suite instead, open the site
   // once with ?emulator in the address (e.g. http://localhost:5173/?emulator),
@@ -56,21 +61,4 @@ export function wantsEmulators() {
     if (sessionStorage.getItem('lw:emulator') === '1') return true;
   } catch { /* storage blocked */ }
   return settings.useEmulatorsOnLocalhost && !p.has('live');
-}
-
-/**
- * Send an auth email with a "continue" link back to this site. If this domain
- * isn't in Firebase's Authorized domains yet, send it without the link
- * instead of failing (the email still works).
- */
-export async function sendWithContinue(send, path) {
-  try {
-    return await send({ url: new URL(path, location.href).href });
-  } catch (err) {
-    if (['auth/unauthorized-continue-uri', 'auth/invalid-continue-uri', 'auth/unauthorized-domain'].includes(err.code)) {
-      console.warn('Add this domain to Firebase Authorized domains for branded links.');
-      return send(undefined);
-    }
-    throw err;
-  }
 }

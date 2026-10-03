@@ -2,7 +2,7 @@
 import { h, icon, toast, withBusy, fieldError, friendlyError, avatar, fmt, confirmDialog } from '../ui.js';
 import { validateDisplayName, validateEmail, passwordCheck } from '../validate.js';
 import { pageHead } from './common.js';
-import { sendWithContinue } from '../config.js';
+import { sendWithContinue } from '../email.js';
 
 export function accountView(ctx) {
   const { session, data, fb } = ctx;

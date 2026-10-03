@@ -167,6 +167,11 @@
 .gate-card .lede { margin: 0 auto; }
 .gate-card form { width: 100%; display: grid; gap: 16px; text-align: left; }
 .gate-actions { display: grid; gap: 10px; width: 100%; }
+.gate-card > [aria-live] { width: 100%; text-align: left; }
+.gate-tips { width: 100%; display: grid; gap: 10px; padding: 18px 20px; background: var(--mist); text-align: left; font-size: 14px; line-height: 1.5; }
+.gate-tips ul { display: grid; gap: 8px; }
+.gate-tips li { display: flex; gap: 10px; color: var(--ink-2); }
+.gate-tips li::before { content: ""; width: 6px; height: 6px; margin-top: 0.55em; background: var(--red); flex: none; }
 .mail-art { position: relative; width: 120px; height: 90px; margin-bottom: 8px; }
 .mail-art .env { position: absolute; inset: 0; border: 3px solid var(--ink); background: #fff; }
 .mail-art .env::before {

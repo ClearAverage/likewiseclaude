@@ -214,8 +214,10 @@ async function boot() {
       try { localStorage.removeItem('lw:signedIn'); } catch { /* ignore */ }
       unsubMemberships?.();
       runCleanups();
+      let startOver = false;
+      try { startOver = sessionStorage.getItem('lw:startOver') === '1'; sessionStorage.removeItem('lw:startOver'); } catch { /* ignore */ }
       const next = `app.html${location.hash || ''}`;
-      location.replace(`auth.html?next=${encodeURIComponent(next)}`);
+      location.replace(startOver ? 'auth.html?mode=signup' : `auth.html?next=${encodeURIComponent(next)}`);
       return;
     }
     if (session.user?.uid === user.uid && session.profile) return; // token refresh etc.

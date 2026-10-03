@@ -2,7 +2,7 @@
 import { frameGuard, $, $$, toast, withBusy, fieldError, friendlyError, safeNext } from './ui.js';
 import { initMotion } from './motion.js';
 import { validateDisplayName, validateEmail, passwordCheck } from './validate.js';
-import { sendWithContinue } from './config.js';
+import { sendWithContinue, sendVerification } from './email.js';
 
 if (!frameGuard()) start();
 
@@ -92,7 +92,7 @@ async function start() {
   const { auth, authMod, db, fsMod } = fb;
   const {
     onAuthStateChanged, setPersistence, browserLocalPersistence, browserSessionPersistence,
-    signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification,
+    signInWithEmailAndPassword, createUserWithEmailAndPassword,
     sendPasswordResetEmail, updateProfile, validatePassword,
   } = authMod;
   auth.useDeviceLanguage();
@@ -188,11 +188,8 @@ async function start() {
           console.warn('Profile will be completed in the app', err);
         }
         updateProfile(user, { displayName: nameR.name }).catch(() => {});
-        try {
-          await sendWithContinue((s) => sendEmailVerification(user, s), 'app.html');
-        } catch (err) {
-          console.warn('Verification email failed; user can resend', err);
-        }
+        // The next screen shows whether this worked (and why not), with a resend button.
+        await sendVerification(authMod, user).catch(() => {});
         try { localStorage.setItem('lw:signedIn', '1'); } catch { /* ignore */ }
         location.replace(next);
       } catch (err) {

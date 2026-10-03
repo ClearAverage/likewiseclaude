@@ -260,7 +260,10 @@ const AUTH_ERRORS = {
   'auth/missing-password': 'Enter your password.',
   'auth/operation-not-allowed': 'Email/password sign-in isn’t enabled for this project yet.',
   'auth/unauthorized-continue-uri': 'This website’s domain isn’t authorized in Firebase yet (see setup guide).',
-  'auth/quota-exceeded': 'Too many emails sent today. Try again later.',
+  'auth/quota-exceeded': 'This site hit Firebase’s daily email limit. Try again tomorrow.',
+  'auth/user-token-expired': 'Your session expired. Sign out and sign in again.',
+  'auth/invalid-user-token': 'Your session expired. Sign out and sign in again.',
+  'auth/missing-email': 'There’s no email address on this account.',
 };
 
 export function friendlyError(err, fallback = 'Something went wrong. Please try again.') {

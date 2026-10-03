@@ -62,6 +62,7 @@ Follow the **Firebase Setup** document step by step. In short:
 4. Push this folder to a GitHub repo and enable **GitHub Pages** (branch `main`, folder `/root`).
 5. Add `YOUR-USERNAME.github.io` to **Authentication → Settings → Authorized domains**.
 6. (Recommended) Point the email **action URL** at `action.html`, restrict your API key, and turn on App Check.
+7. (Recommended) Make verification emails land in the inbox instead of Spam: **Authentication → Templates → SMTP settings** with a Gmail App Password (setup guide, Step 5b), then set `emailFrom` in `assets/js/config.js`.
 
 ---
 
